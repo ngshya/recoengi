@@ -2,7 +2,7 @@ from scipy import sparse
 from sklearn.preprocessing import normalize
 import numpy as np
 import logging
-from .cosimtop import *
+from .cosimtop import cosimtop
 
 class CFM:
 
@@ -115,3 +115,20 @@ class CFM:
 
         if self.avg_pos_amounts_diff_perc >= self.avg_pos_ampunts_diff_perc_random:
             logging.warning("The amounts model is not performing better than a random model!")
+
+    
+    def computeEverything(self, bln_bin = False, bln_norm = True, flt_ths = 0.0, ntop = None, flt_lb = -1):
+
+        '''
+        Method for lazy people like me. :)
+        :param bln_bin: Binarize each matrix entry? If True, each entry will be binarized according to the flt_ths. 
+        :param bln_norm: Should the output matrix entries be constrained in the interval [-1, +1]? 
+        :param flt_ths: Threshold used by the binarization. 
+        :param ntop: How many most similar users to keep for each user? If None, every similarity coefficient will be kept. Set this parameter to take advantage of the sparse matrix memory optimization. 
+        :param flt_lb: Lower bound value for the output similarity matrix entries. 
+        '''
+
+        self.computeSimilarityMatrix(bln_bin = bln_bin, bln_norm = bln_norm, flt_ths = flt_ths, ntop = ntop, flt_lb = flt_lb)
+        self.computeScores()
+        self.computeAmounts()
+        self.computePerformances()

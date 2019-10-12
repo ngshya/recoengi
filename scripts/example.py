@@ -14,11 +14,17 @@ M = sparse.random(30000, 32, density=0.3, format='csr')
 
 # Initialize PM 
 cfm = cf.CFM(M)
+
+# Steps by steps
 # Compute the similarity matrix 
-cfm.computeSimilarityMatrix(bln_bin=False, bln_norm=True, flt_ths=0.0, ntop=10, flt_lb=-1)
+# cfm.computeSimilarityMatrix(bln_bin=False, bln_norm=True, flt_ths=0.0, ntop=10, flt_lb=-1)
 # Compute the scores
-cfm.computeScores()
+# cfm.computeScores()
 # Compute the amounts
-cfm.computeAmounts()
+# cfm.computeAmounts()
 # Compute the performances
-cfm.computePerformances()
+# cfm.computePerformances()
+
+# ... OR
+cfm.computeEverything(bln_bin=False, bln_norm=True, flt_ths=0.0, ntop=10, flt_lb=-1)
+
