@@ -11,5 +11,5 @@ M = sparse.random(100000, 100, density=0.1, format='csr')
 # Initialize PM 
 pm = cf.PM(M)
 # Compute the similarity matrix 
-pm.computeSimilarityMatrix(bln_bin = False, bln_norm = True, flt_ths = 0.0, ntop = 10)
+pm.computeSimilarityMatrix(bln_bin=False, bln_norm=True, flt_ths=0.0, ntop=10, flt_lb=-1)
 

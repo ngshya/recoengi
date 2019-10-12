@@ -3,7 +3,8 @@ from scipy.sparse import csr_matrix
 import sparse_dot_topn.sparse_dot_topn as ct
 import numpy as np
 
-def cosimtop(A, B, ntop, lower_bound=-1):
+def cosimtop(A, B, ntop, lower_bound=0):
+
     '''
     Optimized cosine similarity computation.
     :param A: First matrix.
@@ -12,6 +13,7 @@ def cosimtop(A, B, ntop, lower_bound=-1):
     :param lower_bound: Lower bound for each row.
     :return: Cosine similarity matrix.
     '''
+    
     A = A.tocsr()
     B = B.tocsr()
     M, _ = A.shape
