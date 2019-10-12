@@ -5,7 +5,7 @@ setup(
     url='https://github.com/ngshya/recoengi',
     author='ngshya',
     author_email='ngshya@gmail.com',
-    packages=['cf'],
+    packages=['recoengi'],
     install_requires=['numpy', 'pandas'],
     version='0.0.1',
     license='proprietary',
