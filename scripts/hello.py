@@ -1,4 +1,0 @@
-import mypkg
-
-
-mypkg.hello()
