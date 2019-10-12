@@ -1,8 +1,9 @@
 from scipy import sparse
 from sklearn.preprocessing import normalize
 from .cosimtop import *
+import logging as log
 
-class PM:
+class CFM:
 
     '''
     Preferences Matrix Class
@@ -53,3 +54,13 @@ class PM:
         self.S = cosimtop(self.S, self.S.transpose(), ntop = ntop, lower_bound=flt_lb)
     
 
+    def computeScores(self):
+
+        '''
+        Compute the scores for each couple (user, product). 
+        '''
+
+        self.SNORMALIZED = self.S.copy()
+        self.SNORMALIZED.setdiag(0)
+        self.SNORMALIZED = normalize(self.SNORMALIZED, norm='l1', axis=1)
+        self.SCORES = self.SNORMALIZED * self.B
