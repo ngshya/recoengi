@@ -25,9 +25,18 @@ class PM:
         '''
         if ntop is None:
             ntop = self.M.shape[0]
-        self.S = self.M.copy()
+
+        self.bln_bin = bln_bin
+        self.bln_norm = bln_norm
+        self.flt_ths = flt_ths
+        self.ntop = ntop
+
+        self.B = self.M.copy()
+        self.B.data = (self.B.data > flt_ths) + 0.0
         if bln_bin:
-            self.S.data = (self.S.data > flt_ths) + 0.0
+            self.S = self.B.copy()
+        else:
+            self.S = self.M.copy()
         if bln_norm:
             self.S = normalize(self.S, norm='l2', axis=1)
         self.S = cosimtop(self.S, self.S.transpose(), ntop = ntop)
