@@ -1,7 +1,8 @@
 from scipy import sparse
 from sklearn.preprocessing import normalize
+import numpy as np
+import logging
 from .cosimtop import *
-import logging as log
 
 class CFM:
 
@@ -19,6 +20,7 @@ class CFM:
         
         # Computations are performed in sparse matrices in order to hold more data. 
         self.M = sparse.csr_matrix(M)
+        logging.info("M matrix has shape " + str(self.M.shape[0]) + "x" + str(self.M.shape[1]) + ".")
 
 
     def computeSimilarityMatrix(self, bln_bin = False, bln_norm = True, flt_ths = 0.0, ntop = None, flt_lb = -1):
@@ -42,6 +44,7 @@ class CFM:
 
         self.B = self.M.copy()
         self.B.data = (self.B.data > flt_ths) + 0.0
+        logging.info("B matrix has shape " + str(self.B.shape[0]) + "x" + str(self.B.shape[1]) + ".")
 
         if bln_bin:
             self.S = self.B.copy()
@@ -51,7 +54,9 @@ class CFM:
         if bln_norm:
             self.S = normalize(self.S, norm='l2', axis=1)
 
+        logging.info("Computing the similarity matrix S ...")
         self.S = cosimtop(self.S, self.S.transpose(), ntop = ntop, lower_bound=flt_lb)
+        logging.info("S matrix has shape " + str(self.S.shape[0]) + "x" + str(self.S.shape[1]) + ".")
     
 
     def computeScores(self):
@@ -60,7 +65,53 @@ class CFM:
         Compute the scores for each couple (user, product). 
         '''
 
+        logging.info("Computing the matrix SNORMALIZED ...")
         self.SNORMALIZED = self.S.copy()
-        self.SNORMALIZED.setdiag(0)
+        self.SNORMALIZED = self.SNORMALIZED - sparse.diags(self.SNORMALIZED.diagonal(), format="csr")
         self.SNORMALIZED = normalize(self.SNORMALIZED, norm='l1', axis=1)
+        logging.info("Computing the matrix SCORES ...")
         self.SCORES = self.SNORMALIZED * self.B
+        logging.info("SCORES matrix has shape " + str(self.SCORES.shape[0]) + "x" + str(self.SCORES.shape[1]) + ".")
+
+
+    def computeAmounts(self):
+
+        '''
+        Compute the averaged amount for each couple (user, product).
+        '''
+
+        logging.info("Computing the matrix AMOUNTS ...")
+        self.AMOUNTS = self.SNORMALIZED * self.M
+        logging.info("AMOUNTS matrix has shape " + str(self.AMOUNTS.shape[0]) + "x" + str(self.AMOUNTS.shape[1]) + ".")
+    
+
+    def computePerformances(self):
+
+        '''
+        Compute model performances. 
+        '''
+
+        # TODO: add out of the sample testing. 
+
+        logging.info("Computing the performances ...")
+
+        self.avg_global_scores_diff = abs(self.SCORES - self.B).mean()
+        self.avg_pos_scores_diff = abs(self.SCORES[self.B > 0.01] - 1).mean()
+        logging.info("Average global scores difference: " + str(self.avg_global_scores_diff) + ".")
+        logging.info("Average positive scores difference: " + str(self.avg_pos_scores_diff) + ".")
+
+        if self.avg_pos_scores_diff >= 0.5:
+            logging.warning("The scores model is not performing better than a random model!")
+
+        self.avg_global_amounts_diff = abs(self.AMOUNTS - self.M).mean()
+        tmp_positive_amounts = self.AMOUNTS[self.B > 0.01]
+        tmp_real_positive_amounts = self.M[self.B > 0.01]
+        tmp_random_model_pred = tmp_positive_amounts.mean()
+        self.avg_pos_amounts_diff_perc = (abs(tmp_positive_amounts - tmp_real_positive_amounts) / tmp_real_positive_amounts).mean() * 100
+        self.avg_pos_ampunts_diff_perc_random = (abs(tmp_random_model_pred - tmp_real_positive_amounts) / tmp_real_positive_amounts).mean() * 100
+        logging.info("Average global amounts difference: " + str(self.avg_global_amounts_diff) + ".")
+        logging.info("Average positive amounts difference percentage: " + str(self.avg_pos_amounts_diff_perc) + "%.")
+        logging.info("Average positive amounts difference percentage of a random model: " + str(self.avg_pos_ampunts_diff_perc_random) + "%.")
+
+        if self.avg_pos_amounts_diff_perc >= self.avg_pos_ampunts_diff_perc_random:
+            logging.warning("The amounts model is not performing better than a random model!")
