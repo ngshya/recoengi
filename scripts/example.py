@@ -5,7 +5,7 @@ import recoengi.cf as cf
 
 from scipy import sparse
 
-# Simulate 100000 users with their preferences on over 100 products. 
+# Simulate 100000 users with their preferences over 100 products. 
 M = sparse.random(100000, 100, density=0.1, format='csr')
 
 # Initialize PM 
