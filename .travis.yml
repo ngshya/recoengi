@@ -20,8 +20,8 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   package_glob: 
-    - dist/*.whl
-    - dist/*.tar.gz
+    - "dist/*.whl"
+    - "dist/*.tar.gz"
   skip_cleanup: true
   draft: true
   tags: false
