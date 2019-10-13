@@ -5,12 +5,13 @@ python:
 
 install:
   - pip install Cython
+  - pip install twine
   - pip install -r recoengi/requirements.txt
   - pip install .
 # command to run tests
 script:
   - python -m unittest discover tests
-  - python setup.py bdist_wheel
+  - python setup.py bdist_wheel sdist
 
 branches:
   only:
@@ -24,3 +25,8 @@ deploy:
   skip_cleanup: true
   draft: true
   tags: false
+
+deploy:
+  provider: pypi
+  user: "__token__"
+  password: "$PYPI_TOKEN"

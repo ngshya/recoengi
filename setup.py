@@ -17,6 +17,7 @@ setup(
     package_data={
         'notebooks': ['notebooks/*'],
         'static': ['static/*'],
-        'sampledata': ['sampledata/*']
+        'sampledata': ['sampledata/*'],
+        'scripts': ['scripts/*']
     }
 )
