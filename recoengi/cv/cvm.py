@@ -15,6 +15,8 @@ def cvmRun(dict_conf, M, colnames, rownames):
     :return: Predictions
     '''
 
+    np.random.seed(1102)
+
     M = sparse.csc_matrix(M)
 
     y = np.array(M[:, colnames.index[colnames == dict_conf["target"]]].todense()).flatten()
@@ -27,6 +29,8 @@ def cvmRun(dict_conf, M, colnames, rownames):
     X = M[:, colnames.index[colnames.isin(dict_conf["features"])]]
     
     random_folds = np.random.choice(range(dict_conf["nfolds"]), size=len(y)) + 1
+    while len(np.unique(random_folds)) != dict_conf["nfolds"]:
+        random_folds = np.random.choice(range(dict_conf["nfolds"]), size=len(y)) + 1
     
     predictions = np.zeros(len(y))
 
