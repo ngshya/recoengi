@@ -15,8 +15,7 @@ setup(
     description='',
     long_description=open('README.md').read(),
     package_data={
-        'recoengi': ['*'],
-        'recoengi': ['sampledata/*'],
+        'recoengi': ['sampledata/*', "*"],
         'notebooks': ['*'],
         'static': ['*'],
         'scripts': ['*']
