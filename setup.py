@@ -10,7 +10,7 @@ setup(
     author_email='ngshya@gmail.com',
     packages=['recoengi'],
     install_requires=required,
-    version='0.0.1',
+    version='0.0.2',
     license='proprietary',
     description='',
     long_description=open('README.md').read(),
