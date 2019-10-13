@@ -45,6 +45,7 @@ class CFM:
         self.B = self.M.copy()
         self.B.data = (self.B.data > flt_ths) + 0.0
         logging.info("B matrix has shape " + str(self.B.shape[0]) + "x" + str(self.B.shape[1]) + ".")
+        logging.info("B matrix has sparsity " + str(sum(self.B.data)/(self.B.shape[0] * self.B.shape[1])*100) + "%.")
 
         if bln_bin:
             self.S = self.B.copy()
