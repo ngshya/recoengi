@@ -6,7 +6,7 @@ import recoengi.cf as cf
 
 from scipy import sparse
 import logging
-logging.basicConfig(level=logging.INFO, format="%(levelname)s %(asctime)s %(message)s")
+logging.basicConfig(level=logging.debug, format="%(levelname)s %(asctime)s %(message)s")
 
 
 # Simulate 100000 users with their preferences over 100 products. 
