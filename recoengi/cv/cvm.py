@@ -21,9 +21,9 @@ def cvmRun(dict_conf, M, colnames, rownames):
 
     y = np.array(M[:, colnames.index[colnames == dict_conf["target"]]].todense()).flatten()
     if dict_conf["target_type"] == "classification":
-        y = (y > dict_conf["threshold"]) + 0
+        y = np.array((y > dict_conf["threshold"]) + 0)
     if sum(y == 0) == len(y):
-            logging.warning("Target " + dict_conf["target"] + " | Target always zero!.")
+            logging.warning("Target " + dict_conf["target"] + " | Target always zero!")
             y[0] = 1
     
     X = M[:, colnames.index[colnames.isin(dict_conf["features"])]]

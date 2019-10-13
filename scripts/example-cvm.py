@@ -34,15 +34,14 @@ rownames = pd.Series(dtf_train.index)
 
 #%%
 array_dict_conf = [{
-    "target": "film_"+str(x), 
+    "target": x, 
     "target_type": "classification", 
     "threshold": 2.9,
-    "features": np.setdiff1d(colnames, ["film_"+str(x)]), 
+    "features": np.setdiff1d(colnames, [x]), 
     "nfolds": 2,
     "n_estimators": 100,
     "max_depth": 10
-} for x in range(4179)]
-# 4179
+} for x in colnames]
 
 
 #%%
