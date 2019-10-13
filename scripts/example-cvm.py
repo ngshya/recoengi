@@ -7,12 +7,13 @@ import numpy as np
 from scipy import sparse
 from sklearn import metrics
 import pickle
+import pkg_resources
 import logging
 logging.basicConfig(level=logging.DEBUG, format="%(levelname)s %(asctime)s %(message)s")
 
 
 #%%
-dtf_train = pickle.load(open(pkg_resources.resource_filename('recoengi', 'sampledata/movie_ratings_train.pickle'), "rb"))
+dtf_train_orig = pickle.load(open(pkg_resources.resource_filename('recoengi', 'sampledata/movie_ratings_train.pickle'), "rb"))
 dtf_test = pickle.load(open(pkg_resources.resource_filename('recoengi', 'sampledata/movie_ratings_test.pickle'), "rb"))
 
 

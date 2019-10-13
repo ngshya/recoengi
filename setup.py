@@ -8,20 +8,17 @@ setup(
     url='https://github.com/ngshya/recoengi',
     author='ngshya',
     author_email='ngshya@gmail.com',
-    packages=['recoengi', 'recoengi.cf', 'recoengi.cv', 'sampledata'],
+    packages=['recoengi', 'recoengi.cf', 'recoengi.cv', 'recoengi.sampledata'],
     install_requires=required,
-    version='0.0.7',
+    version='0.0.8',
     license='proprietary',
     description='',
     long_description=open('README.md').read(),
     package_data={
         'recoengi': ['*'],
+        'recoengi': ['sampledata/*'],
         'notebooks': ['*'],
         'static': ['*'],
-        'sampledata': ['*'],
         'scripts': ['*']
-    }, 
-    data_files=[('recoengi', ['recoengi/requirements.txt']),
-                ('sampledata', ['sampledata/movie_ratings_train.pickle', 
-                                'sampledata/movie_ratings_test.pickle'])]
+    }
 )
