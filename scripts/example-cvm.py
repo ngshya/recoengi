@@ -42,10 +42,11 @@ array_dict_conf = [{
     "n_estimators": 100,
     "max_depth": 10
 } for x in range(4179)]
+# 4179
 
 
 #%%
-output = cv.cvmMultiRun(array_dict_conf, M, colnames, rownames, npool=6)
+output = cv.cvmMultiRun(array_dict_conf, M, colnames, rownames, npool=8)
 
 
 #%%

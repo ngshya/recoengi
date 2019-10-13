@@ -20,6 +20,9 @@ def cvmRun(dict_conf, M, colnames, rownames):
     y = np.array(M[:, colnames.index[colnames == dict_conf["target"]]].todense()).flatten()
     if dict_conf["target_type"] == "classification":
         y = (y > dict_conf["threshold"]) + 0
+    if sum(y == 0) == len(y):
+            logging.warning("Target " + dict_conf["target"] + " | Target always zero!.")
+            y[0] = 1
     
     X = M[:, colnames.index[colnames.isin(dict_conf["features"])]]
     
@@ -46,6 +49,9 @@ def cvmRun(dict_conf, M, colnames, rownames):
         bln_tmp = (random_folds != k)
         X_tmp = X[rownames.index[bln_tmp], ]
         y_tmp = y[bln_tmp]
+        if sum(y_tmp == 0) == len(y_tmp):
+            logging.warning("Target " + dict_conf["target"] + " | Fold " + str(k) + " | Target always zero!.")
+            y_tmp[0] = 1
         model.fit(X_tmp, y_tmp)
         if dict_conf["target_type"] == "classification":
             predictions_tmp = model.predict_proba(X[rownames.index[~bln_tmp], :])
