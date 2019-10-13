@@ -4,10 +4,15 @@ import numpy as np
 from scipy import sparse
 import logging
 
-def cvMrun(M, colnames, rownames, dict_conf, n_estimators=100, max_depth=10):
+def cvmRun(dict_conf, M, colnames, rownames):
     
     '''
-
+    Run a k-fold random forest. 
+    :param dict_conf: Dictionary containing setting parameters. 
+    :param M: Matrix containing features. 
+    :param colnames: Array of columns names. 
+    :param rownames: Array of rows names. 
+    :return: Predictions
     '''
 
     M = sparse.csc_matrix(M)
@@ -24,14 +29,14 @@ def cvMrun(M, colnames, rownames, dict_conf, n_estimators=100, max_depth=10):
 
     if dict_conf["target_type"] == "classification":
         model = RandomForestClassifier(
-            n_estimators=n_estimators, 
-            max_depth=max_depth, 
+            n_estimators=dict_conf["n_estimators"], 
+            max_depth=dict_conf["max_depth"], 
             random_state=1102
         )
     else:
         model = RandomForestRegressor(
-            n_estimators=n_estimators, 
-            max_depth=max_depth, 
+            n_estimators=dict_conf["n_estimators"], 
+            max_depth=dict_conf["max_depth"], 
             random_state=1102
         ) 
 
@@ -51,18 +56,28 @@ def cvMrun(M, colnames, rownames, dict_conf, n_estimators=100, max_depth=10):
 
     if dict_conf["target_type"] == "classification":
         fpr, tpr, thresholds = metrics.roc_curve(y_true=y+1, y_score=predictions, pos_label=2)
-        logging.debug("AUC on training set: " + str(metrics.auc(fpr, tpr)) + ".")
+        logging.debug("Target " + dict_conf["target"] + " | AUC on training set: " + str(metrics.auc(fpr, tpr)) + ".")
     else: 
-        logging.debug("RMSE on training set: " + str( np.mean( (predictions-y)**2 )**(0.5) ) + ".")
+        logging.debug("Target " + dict_conf["target"] + " | RMSE on training set: " + str( np.mean( (predictions-y)**2 )**(0.5) ) + ".")
+
+    return predictions
 
 
 
-class cvm:
+import multiprocessing
+import functools
 
+def cvmMultiRun(array_dict_conf, M, colnames, rownames, npool=6):
     '''
-    Cross-validated recommender system. 
+    Run cvmRun in multiprocessing. 
+    :param array_dict_conf: List of dictionaries containing setting parameters. 
+    :param M: Matrix containing features. 
+    :param colnames: Array of columns names. 
+    :param rownames: Array of rows names.
+    :param npool: Number of workers.  
+    :return: Predictions
     '''
+    pool = multiprocessing.Pool(npool)
+    output = pool.map(functools.partial(cvmRun, M=M, colnames=colnames, rownames=rownames), array_dict_conf)
+    return output
 
-    def __init__(self, dtf_data, dict_features): 
-        self.data = dtf_data
-        self.dict_features = dict_features
