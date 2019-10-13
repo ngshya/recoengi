@@ -10,7 +10,7 @@ setup(
     author_email='ngshya@gmail.com',
     packages=['recoengi', 'recoengi.cf', 'recoengi.cv'],
     install_requires=required,
-    version='0.0.5',
+    version='0.0.6',
     license='proprietary',
     description='',
     long_description=open('README.md').read(),
@@ -22,5 +22,6 @@ setup(
         'scripts': ['*']
     }, 
     data_files=[('recoengi', ['recoengi/requirements.txt']),
-                ('sampledata', ['sampledata/movie_ratings_train.pickle'])]
+                ('sampledata', ['sampledata/movie_ratings_train.pickle', 
+                                'sampledata/movie_ratings_test.pickle'])]
 )

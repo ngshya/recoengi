@@ -18,15 +18,13 @@ branches:
   - master
 
 deploy:
-  provider: releases
+- provider: releases
   api_key: $GITHUB_TOKEN
   file_glob: true
   file: "dist/*.{whl,tar.gz}"
   skip_cleanup: true
   draft: true
   tags: false
-
-deploy:
-  provider: pypi
+- provider: pypi
   user: "__token__"
   password: "$PYPI_TOKEN"
