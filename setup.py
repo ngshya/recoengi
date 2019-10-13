@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open('recoengi/requirements.txt') as f:
+with open('./recoengi/requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(
@@ -8,16 +8,19 @@ setup(
     url='https://github.com/ngshya/recoengi',
     author='ngshya',
     author_email='ngshya@gmail.com',
-    packages=['recoengi'],
+    packages=['recoengi', 'recoengi.cf', 'recoengi.cv'],
     install_requires=required,
-    version='0.0.2',
+    version='0.0.5',
     license='proprietary',
     description='',
     long_description=open('README.md').read(),
     package_data={
-        'notebooks': ['notebooks/*'],
-        'static': ['static/*'],
-        'sampledata': ['sampledata/*'],
-        'scripts': ['scripts/*']
-    }
+        'recoengi': ['*'],
+        'notebooks': ['*'],
+        'static': ['*'],
+        'sampledata': ['*'],
+        'scripts': ['*']
+    }, 
+    data_files=[('recoengi', ['recoengi/requirements.txt']),
+                ('sampledata', ['sampledata/movie_ratings_train.pickle'])]
 )

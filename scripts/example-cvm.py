@@ -1,7 +1,4 @@
 #%%
-import sys
-sys.path.append('../')
-sys.path.append('.')
 import recoengi
 import recoengi.cv as cv
 
@@ -15,8 +12,8 @@ logging.basicConfig(level=logging.DEBUG, format="%(levelname)s %(asctime)s %(mes
 
 
 #%%
-dtf_train_orig = pickle.load(open("sampledata/movie_ratings_train.pickle", "rb"))
-dtf_test = pickle.load(open("sampledata/movie_ratings_test.pickle", "rb"))
+dtf_train = pickle.load(open(pkg_resources.resource_filename('recoengi', 'sampledata/movie_ratings_train.pickle'), "rb"))
+dtf_test = pickle.load(open(pkg_resources.resource_filename('recoengi', 'sampledata/movie_ratings_test.pickle'), "rb"))
 
 
 #%%
@@ -41,7 +38,7 @@ array_dict_conf = [{
     "nfolds": 2,
     "n_estimators": 100,
     "max_depth": 10
-} for x in colnames]
+} for x in colnames[0:10]]
 
 
 #%%

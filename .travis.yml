@@ -15,7 +15,7 @@ script:
 
 branches:
   only:
-  - master
+  - production
 
 deploy:
   provider: releases

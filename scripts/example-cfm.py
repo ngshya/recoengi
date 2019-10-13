@@ -1,7 +1,4 @@
 #%%
-import sys
-sys.path.append('../')
-sys.path.append('.')
 import recoengi
 import recoengi.cf as cf
 
@@ -9,14 +6,17 @@ import pandas as pd
 from scipy import sparse
 from sklearn import metrics
 import pickle
+import pkg_resources
 import logging
 logging.basicConfig(level=logging.DEBUG, format="%(levelname)s %(asctime)s %(message)s")
 
 
 #%%
-dtf_train = pickle.load(open("sampledata/movie_ratings_train.pickle", "rb"))
-dtf_test = pickle.load(open("sampledata/movie_ratings_test.pickle", "rb"))
+dtf_train = pickle.load(open(pkg_resources.resource_filename('recoengi', 'sampledata/movie_ratings_train.pickle'), "rb"))
+dtf_test = pickle.load(open(pkg_resources.resource_filename('recoengi', 'sampledata/movie_ratings_test.pickle'), "rb"))
 
+
+#%%
 M = sparse.csr_matrix((dtf_train.rating, (dtf_train.userId, dtf_train.movieId)))
 
 
