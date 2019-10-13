@@ -61,7 +61,7 @@ def cvmRun(dict_conf, M, colnames, rownames):
             predictions[~bln_tmp] = predictions_tmp
 
     if dict_conf["target_type"] == "classification":
-        fpr, tpr, thresholds = metrics.roc_curve(y_true=y+1, y_score=predictions, pos_label=2)
+        fpr, tpr, _ = metrics.roc_curve(y_true=y+1, y_score=predictions, pos_label=2)
         logging.debug("Target " + dict_conf["target"] + " | AUC on training set: " + str(metrics.auc(fpr, tpr)) + ".")
     else: 
         logging.debug("Target " + dict_conf["target"] + " | RMSE on training set: " + str( np.mean( (predictions-y)**2 )**(0.5) ) + ".")
