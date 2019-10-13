@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pipreqs --force recoengi
+pipreqs --savepath requirements.txt --force recoengi

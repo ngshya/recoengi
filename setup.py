@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open('./recoengi/requirements.txt') as f:
+with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(
@@ -10,7 +10,7 @@ setup(
     author_email='ngshya@gmail.com',
     packages=['recoengi', 'recoengi.cf', 'recoengi.cv', 'recoengi.sampledata'],
     install_requires=required,
-    version='0.0.8',
+    version='0.0.9',
     license='proprietary',
     description='',
     long_description=open('README.md').read(),
