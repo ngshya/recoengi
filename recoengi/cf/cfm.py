@@ -102,7 +102,7 @@ class CFM:
         logging.info("Average positive scores difference: " + str(self.avg_pos_scores_diff) + ".")
 
         if self.avg_pos_scores_diff >= 0.5:
-            logging.warning("The scores model is not performing better than a random model!")
+            logging.warning("The scores model could not performing better than a random model!")
 
         self.avg_global_amounts_diff = abs(self.AMOUNTS - self.M).mean()
         tmp_positive_amounts = self.AMOUNTS[self.B > 0.01]
@@ -115,7 +115,7 @@ class CFM:
         logging.info("Average positive amounts difference percentage of a random model: " + str(self.avg_pos_ampunts_diff_perc_random) + "%.")
 
         if self.avg_pos_amounts_diff_perc >= self.avg_pos_ampunts_diff_perc_random:
-            logging.warning("The amounts model is not performing better than a random model!")
+            logging.warning("The amounts model could not performing better than a random model!")
 
     
     def computeEverything(self, bln_bin = False, bln_norm = True, flt_ths = 0.0, ntop = None, flt_lb = -1):
