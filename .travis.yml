@@ -19,7 +19,7 @@ branches:
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
-  file: 
+  package_glob: 
     - dist/*.whl
     - dist/*.tar.gz
   skip_cleanup: true
